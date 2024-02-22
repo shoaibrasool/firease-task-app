@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardContent, Typography, Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import {
     collection,
     getDocs,
@@ -58,9 +60,14 @@ const Products = () => {
                             <Typography variant="body2" component="p">
                                 Price: ${product.price}
                             </Typography>
-                            <Button style={{ marginTop: "10px" }} variant="contained" color="error" onClick={() => handleDeleteProduct(product.id)}>
+                            <IconButton color="error" onClick={() => handleDeleteProduct(product.id)}>
                                 <DeleteIcon />
-                            </Button>
+                            </IconButton>
+                            <Link to={{ pathname: "/addProduct", state: { product } }}>
+                                <IconButton color="primary">
+                                    <EditIcon />
+                                </IconButton>
+                            </Link>
                         </CardContent>
                     </Card>
                 ))}
