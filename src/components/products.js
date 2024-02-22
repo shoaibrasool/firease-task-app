@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     collection,
     getDocs,
@@ -23,10 +24,19 @@ const Products = () => {
         try {
             const q = query(collection(db, "products"));
             const querySnapshot = await getDocs(q);
-            const productsData = querySnapshot.docs.map(doc => doc.data());
+            const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setProducts(productsData);
         } catch (error) {
             console.error("Error fetching products:", error);
+        }
+    };
+
+    const handleDeleteProduct = async (productId) => {
+        try {
+            await deleteDoc(doc(db, "products", productId));
+            setProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+        } catch (error) {
+            console.error("Error deleting product:", error);
         }
     };
 
@@ -48,6 +58,9 @@ const Products = () => {
                             <Typography variant="body2" component="p">
                                 Price: ${product.price}
                             </Typography>
+                            <Button style={{ marginTop: "10px" }} variant="contained" color="error" onClick={() => handleDeleteProduct(product.id)}>
+                                <DeleteIcon />
+                            </Button>
                         </CardContent>
                     </Card>
                 ))}
