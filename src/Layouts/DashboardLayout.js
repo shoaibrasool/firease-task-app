@@ -12,6 +12,7 @@ const DashboardLayout = () => {
                 style={{
                     transition: ".3s",
                     marginLeft: collapsed ? "80px" : "258px",
+                    width: "100%"
                 }}
             >
                 <Outlet />
