@@ -44,9 +44,9 @@ const Products = () => {
 
     return (
         <div>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: "center", marginTop: "20px" }}>
                 {products.map(product => (
-                    <Card key={product.id} style={{ margin: '10px', minWidth: '300px' }}>
+                    <Card key={product.id} style={{ margin: '20px', minWidth: '300px' }}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
                                 {product.productName}
