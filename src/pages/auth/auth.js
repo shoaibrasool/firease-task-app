@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { database } from '../../firebaseConfiguration'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
 
 const defaultTheme = createTheme();
 
@@ -26,13 +28,27 @@ const Auth = ({ onSignup }) => {
         const data = new FormData(event.currentTarget);
         const email = data.get('email')
         const password = data.get('password')
+
         if (onSignup) {
-            createUserWithEmailAndPassword(database, email, password).then(data => {
-                console.log(data, "authdata");
-                navigate('/login');
-            }).catch(err => {
-                alert(err.code);
-            });
+            const username = data.get('username')
+            const userData = {
+                email: email,
+                username: username,
+                role: "buyer",
+            };
+            createUserWithEmailAndPassword(database, email, password)
+                .then(userCredential => {
+                    console.log(userCredential, "authdata");
+                    navigate('/login');
+                })
+                .then(async () => {
+                    console.log("User data set successfully");
+                    const db = getFirestore();
+                    await addDoc(collection(db, 'users'), userData)
+                })
+                .catch(err => {
+                    alert(err.code);
+                });
         } else {
             signInWithEmailAndPassword(database, email, password).then(data => {
                 console.log(data, "authdata");

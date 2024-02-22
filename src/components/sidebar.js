@@ -21,12 +21,11 @@ function getItem(label, key, icon, children, type) {
     };
 }
 
-
-
 const items = [
     getItem('Home', '1', <PieChartOutlined />),
     getItem('About', '2', <DesktopOutlined />),
-    getItem('Blogs', '3', <ContainerOutlined />),
+    getItem('Users', '3', <ContainerOutlined />),
+    getItem('Add Products', '4', <ContainerOutlined />),
 ];
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
@@ -48,7 +47,10 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             navigate('/about')
         }
         if (event.key === '3') {
-            navigate('/blog')
+            navigate('/users')
+        }
+        if (event.key === '4') {
+            navigate('/addProduct')
         }
     };
 
@@ -93,9 +95,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                     theme="dark"
                     inlineCollapsed={collapsed}
                     items={items}
-                    onClick={handleMenuClick} // Attach onClick handler
-                // <div style={{ display: "flex", justifyContent: "space-between", paddingInline: "5px", flexWrap: "wrap" }}>
-
+                    onClick={handleMenuClick}
                 />
                 <Button
                     type="primary"
